@@ -1,0 +1,65 @@
+from tkinter import *
+import tkinter
+
+keypad = tkinter.Tk()
+keypad.title("GUI Keypad")
+keypad ['bg'] = 'black'
+
+def onReturn(event):
+    print("Return Pressed")
+def onBackSpace(event):
+    print("BackSpace Pressed")
+    
+def select(value):
+    if value == "Enter":
+        entry.bind("<Return>", onReturn)
+        output = entry.get();
+        print(output)
+        entry.delete(0, 'end')
+    elif value == "Back":
+        entry.bind("<BackSpace>", onBackSpace)
+        entry.delete(0, 'end')
+    else:
+        entry.insert(tkinter.END, value)
+
+header_label = Label(keypad, text = "GUI Keypad", font = ('arial', 30, 'bold'),
+                 bg = 'black', fg = "white").grid(row = 0, columnspan = 40)
+entry = Entry(keypad, width = 29, font = ('arial', 10, 'bold'))
+entry.grid(row = 1, columnspan = 40)
+entry.config(show = '*')
+
+keys = [
+    '1','2','3',
+    '4','5','6',
+    '7','8','9',
+    'Back','0','Enter'
+    ]
+variableRow = 2
+variableColumn = 0
+
+for key in keys:
+    command = lambda x = key: select(x)
+    if key != "Enter" or key != "Back":
+        tkinter.Button(keypad, text = key, width = 5, padx = 5, pady = 5, bd = 5,
+                       font = ('arial', 12, 'bold'),
+                       command = command).grid(row = variableRow, column = variableColumn)
+    if key == "Enter":
+        tkinter.Button(keypad, text = key, width = 5, padx = 5, pady = 5, bd = 5,
+                       font = ('arial', 12, 'bold'), bg = 'green',
+                       command = command).grid(row = variableRow, column = variableColumn)
+    if key == "Back":
+        tkinter.Button(keypad, text = key, width = 5, padx = 5, pady = 5, bd = 5,
+                       font = ('arial', 12, 'bold'), bg = 'red',
+                       command = command).grid(row = variableRow, column = variableColumn) 
+    variableColumn += 1
+    if variableColumn > 2 and variableRow == 2:
+        variableColumn = 0
+        variableRow += 1
+    if variableColumn > 2 and variableRow == 3:
+        variableColumn = 0
+        variableRow += 1
+    if variableColumn > 2 and variableRow == 4:
+        variableColumn = 0
+        variableRow += 1
+    
+keypad.mainloop()
